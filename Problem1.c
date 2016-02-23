@@ -33,12 +33,12 @@ void printCoords(coords* coordinates, int size) {
 	int i;
 	fprintf(fpout, "%i: ", problemNo);
 	printf("%i: ", problemNo);
-	for (i = 0; i < size; i++) {
+	for (i = 0; i < size; i+=3) {
 		if (i < size && i != 0) {
 			fprintf(fpout, ", ");
 			printf(", ");
 		}
-		fprintf(fpout, "(%1.10f, %1.10f)", (coordinates + i)->x, (coordinates + i)->y);
+		fprintf(fpout, "(%1.9f, %1.9f)", (coordinates + i)->x, (coordinates + i)->y);
 		printf("(%f, %f)", (coordinates + i)->x, (coordinates + i)->y);
 	}
 	fprintf(fpout, "\n");
@@ -64,22 +64,27 @@ void append(char*s, char c) {
 }
 
 float calcAngle(coords* point1, coords* point2, coords* point3) { // finds the angle between point2 and 3 from point1
-	coords vectorAB, vectorAC;
+	coords vectorAB, vectorAC, vectorBC;
 	vectorAB.x = point2->x - point1->x;
 	vectorAB.y = point2->y - point1->y;
 	vectorAC.x = point3->x - point1->x;
 	vectorAC.y = point3->y - point1->y;
+    vectorBC.x = point3->x - point2->x;
+    vectorBC.y = point3->y - point2->y;
+    
 
-	float dotProduct;
-	dotProduct = vectorAB.x * vectorAC.x + vectorAB.y * vectorAC.y;
-
-	float magAB, magAC;
+	float magAB, magAC, magBC;
 	magAB = sqrt(vectorAB.x * vectorAB.x + vectorAB.y * vectorAB.y);
 	magAC = sqrt(vectorAC.x * vectorAC.x + vectorAC.y * vectorAC.y);
+    magBC = sqrt(vectorBC.x * vectorBC.x + vectorBC.y * vectorBC.y);
 
-	printf("AC:(%f, %f) - AC:(%f, %f): dotProduct: %f; mag: %f\n; angle: %f", vectorAB.x, vectorAB.y, vectorAC.x, vectorAC.y, dotProduct, magAB*magAC, acos(dotProduct / (magAB * magAC)));
+    float internalAngle;
+    internalAngle = acos(((magAB*magAB)+(magAC*magAC)-(magBC*magBC))/(2*(magAC)*(magAB)));
 
-	return acos(dotProduct / (magAB * magAC));
+//    printf("vectorAB.x: %f vectorAB.y: %f vectorAC.x: %f vectorAC.y: %f vectorBC.x: %f vectorBC.y: %f \n", vectorAB.x, vec)
+	printf(" angle: %f \n", internalAngle);
+
+	return internalAngle;
 }
 
 void setVertexTypes(coords* coordinates, int size) { //determines whether the vertices are of a certain type as defined in the enum above
