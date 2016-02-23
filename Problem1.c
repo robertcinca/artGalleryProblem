@@ -4,8 +4,8 @@
 #include <math.h>
 
 typedef struct {
-	double x;
-	double y;
+	 double x;
+	 double y;
 	enum vertexType {start, end, regular, merge, split} type;
 } coords;
 
@@ -29,21 +29,68 @@ int countLeftBraces(char* line) {
 	return count;
 }
 
+coords* closestPoint(double xCoordinates, double yCoordinates, coords* coordinates, int size)
+{
+    int i = 0;
+    int x, y;
+    coords* temp = coordinates;
+      coords* final = coordinates;
+    for (i = 0; i < size - 1; i++) {
+        if (i == 0) {
+            final = temp;
+            x = final->x;
+            y = final->y;
+
+        }
+        else if (sqrt(((xCoordinates - temp->x)*(xCoordinates - temp->x)) + ((yCoordinates - temp->y)*(yCoordinates - temp->y))) < sqrt(((xCoordinates - x)*(xCoordinates - x)) + ((yCoordinates - y)*(yCoordinates - y))))
+        {
+            final = temp;
+            x = final->x;
+            y = final->y;
+
+        }
+
+      temp = (temp + 1);
+        
+
+    }
+    
+    
+    return final;
+}
+//
+//coords* closestPoint(coords* coordinates, size) {
+//    coords* initial = coordinates;
+//    coords* temp = coordinates;
+//    int i;
+//    
+//    for(i = 1; i )
+//}
+
 void printCoords(coords* coordinates, int size) {
 	int i;
+    coords* temp;
 	fprintf(fpout, "%i: ", problemNo);
 	printf("%i: ", problemNo);
-	for (i = 0; i < size; i+=3) {
-		if (i < size && i != 0) {
+	for (i = 1; i < size - 1; i+=3) {
+		if (i < size && i != 1) {
 			fprintf(fpout, ", ");
 			printf(", ");
 		}
-		fprintf(fpout, "(%1.9f, %1.9f)", (coordinates + i)->x, (coordinates + i)->y);
-		printf("(%f, %f)", (coordinates + i)->x, (coordinates + i)->y);
+//		fprintf(fpout, "(%1.16Lf, %1.16Lf)", (coordinates + i)->x, (coordinates + i)->y);
+//		printf("(%Lf, %Lf)", (coordinates + i)->x, (coordinates + i)->y);
+//        
+
+        temp = closestPoint((coordinates + i)->x, (coordinates + i)->y, coordinates, size);
+        
+        fprintf(fpout, "(%1.16f, %1.16f)", (temp)->x, (temp)->y);
+        printf("(%f, %f)", (temp)->x, (temp)->y);
 	}
 	fprintf(fpout, "\n");
 	printf("\n");
 }
+
+
 
 void printState(enum state current) {
 	if (current == none) {
