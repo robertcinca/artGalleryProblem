@@ -77,14 +77,14 @@ void printCoords(coords* coordinates, int size) {
 			fprintf(fpout, ", ");
 			printf(", ");
 		}
-//		fprintf(fpout, "(%1.16Lf, %1.16Lf)", (coordinates + i)->x, (coordinates + i)->y);
-//		printf("(%Lf, %Lf)", (coordinates + i)->x, (coordinates + i)->y);
-//        
-
-        temp = closestPoint((coordinates + i)->x, (coordinates + i)->y, coordinates, size);
+		fprintf(fpout, "(%1.17f, %1.17f)", (coordinates + i)->x, (coordinates + i)->y);
+		printf("(%f, %f)", (coordinates + i)->x, (coordinates + i)->y);
         
-        fprintf(fpout, "(%1.16f, %1.16f)", (temp)->x, (temp)->y);
-        printf("(%f, %f)", (temp)->x, (temp)->y);
+
+//        temp = closestPoint((coordinates + i)->x, (coordinates + i)->y, coordinates, size);
+//        
+//        fprintf(fpout, "(%1.16f, %1.16f)", (temp)->x, (temp)->y);
+//        printf("(%f, %f)", (temp)->x, (temp)->y);
 	}
 	fprintf(fpout, "\n");
 	printf("\n");
